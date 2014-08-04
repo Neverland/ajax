@@ -1,14 +1,15 @@
-/**
- * @license
- * Copyright 2012 enix
+/**!
+ *@license
  * enix@foxmail.com
- * last Modified: 2014-06-01
+ * repository: https://github.com/Neverland/ajax
  */
+
 
 define('ajax', [], function () {
 
 	return function (method, url, data, callback, config) {
 		var xhr = new XMLHttpRequest,
+			config = config || {},
 			t = [];
 
 		if (typeof(data) == 'function') {
@@ -32,11 +33,12 @@ define('ajax', [], function () {
 
 		xhr.addEventListener('readystatechange', function () {
 			xhr.readyState == 4 && /200|304/g.test(xhr.status) && callback(xhr.responseText, xhr.responseXML);
-		}, false)
+		}, false);
 
 		xhr.addEventListener('timeout', function () {
 			typeof config.ontimeout == 'function' ? config.ontimeout() : alert('网络超时');
-		}, false)
+		}, false);
+
 		xhr.timeout = isNaN(config.timeout) ? 4000 : config.timeout;
 
 		xhr.open(method || 'GET', url, true);
@@ -47,3 +49,6 @@ define('ajax', [], function () {
 	}
 
 });
+
+
+
